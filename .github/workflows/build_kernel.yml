@@ -10,7 +10,7 @@ on:
     - test
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         bis:
