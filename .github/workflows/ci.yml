@@ -20,7 +20,7 @@ jobs:
     - name: make install
       run: mkdir -p ${GITHUB_WORKSPACE}/destdir && make install DESTDIR=${GITHUB_WORKSPACE}/destdir
     - name: Build tarball
-      run: mkdir -p ${GITHUB_WORKSPACE}/artifacts && tar -C ${GITHUB_WORKSPACE}/destdir zcvf ${GITHUB_WORKSPACE}/artifacts/${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}.tar.gz
+      run: mkdir -p ${GITHUB_WORKSPACE}/artifacts && tar zcvf ${GITHUB_WORKSPACE}/artifacts/${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}.tar.gz -C ${GITHUB_WORKSPACE}/destdir .
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
@@ -39,7 +39,7 @@ jobs:
     - name: make install
       run: mkdir -p ${GITHUB_WORKSPACE}/destdir && make install DESTDIR=${GITHUB_WORKSPACE}/destdir
     - name: Build tarball
-      run: mkdir -p ${GITHUB_WORKSPACE}/artifacts && tar -C ${GITHUB_WORKSPACE}/destdir zcvf ${GITHUB_WORKSPACE}/artifacts/${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}.tar.gz
+      run: mkdir -p ${GITHUB_WORKSPACE}/artifacts && tar zcvf ${GITHUB_WORKSPACE}/artifacts/${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}.tar.gz -C ${GITHUB_WORKSPACE}/destdir .
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
