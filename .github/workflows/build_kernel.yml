@@ -22,8 +22,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/checkout@v2
-      repository: raspberrypi/linux
-      path: linux
+      with:
+        repository: raspberrypi/linux
+        path: linux
     - name: Dependency packages
       run: sudo apt-get -y install build-essential gcc-aarch64-linux-gnu
     - name: Build kernel
