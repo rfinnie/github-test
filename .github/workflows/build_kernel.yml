@@ -1,0 +1,35 @@
+name: build_kernel
+on:
+  push:
+    branches:
+    - main
+    - test
+  pull_request:
+    branches:
+    - main
+    - test
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        bis:
+        - "0"
+        - "1"
+        branch:
+        - rpi-4.19.y
+        - rpi-5.4.y
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+      repository: raspberrypi/linux
+      path: linux
+    - name: Dependency packages
+      run: sudo apt-get -y install build-essential gcc-aarch64-linux-gnu
+    - name: Build kernel
+      run: env GIT_FETCH=0 BIS=${{ matrix.bis }} GIT_BRANCH=${{ matrix.branch }} IMAGE_DIR=${GITHUB_WORKSPACE}/images CROSS_COMPILE=aarch64-linux-gnu- JOBS=16 ${GITHUB_WORKSPACE}/rpi-kernel-build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifact-${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}-${{ matrix.branch }}-${{ matrix.bis }}
+        path: images/*.tar.xz
