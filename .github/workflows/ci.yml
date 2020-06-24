@@ -7,10 +7,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Dependency packages
       run: sudo apt-get -y install build-essential cmake gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libc6-dev-arm64-cross
-    - name: make
-      run: ./buildme --aarch64
-    - name: make install
-      run: mkdir -p ${GITHUB_WORKSPACE}/destdir && make install DESTDIR=${GITHUB_WORKSPACE}/destdir
+    - name: Build
+      run: ./buildme --aarch64 ${GITHUB_WORKSPACE}/destdir
     - name: Build tarball
       run: mkdir -p ${GITHUB_WORKSPACE}/artifacts && tar zcvf ${GITHUB_WORKSPACE}/artifacts/${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}.tar.gz -C ${GITHUB_WORKSPACE}/destdir .
     - name: Upload artifacts
@@ -24,10 +22,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Dependency packages
       run: sudo apt-get -y install build-essential cmake gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf libc6-dev-armhf-cross
-    - name: make
-      run: ./buildme --aarch64
-    - name: make install
-      run: mkdir -p ${GITHUB_WORKSPACE}/destdir && make install DESTDIR=${GITHUB_WORKSPACE}/destdir
+    - name: Build
+      run: ./buildme ${GITHUB_WORKSPACE}/destdir
     - name: Build tarball
       run: mkdir -p ${GITHUB_WORKSPACE}/artifacts && tar zcvf ${GITHUB_WORKSPACE}/artifacts/${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}.tar.gz -C ${GITHUB_WORKSPACE}/destdir .
     - name: Upload artifacts
