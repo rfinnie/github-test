@@ -1,0 +1,128 @@
+## NCSA HTTPd 
+# Support directory makefile
+
+# For gcc
+CC= gcc
+# For ANSI compilers
+#CC= cc
+
+RM= rm -f
+
+#For Optimization
+#CFLAGS= -O2
+#For debugging
+CFLAGS= -g
+# For SCO ODT
+#EXTRA_LIBS= -lcrypt_i
+# For DBM Support
+#EXTRA_LIBS = -lndbm 
+# For ATTSVR3
+#CFLAGS = -DNO_STDLIB_H
+
+# Need src directory for config.h and portability.h.  May need more for DBM
+INCLUDES = -I../src
+
+#--------------------------------------------------------------------------
+#--------------- You shouldn't have to edit anything else. ----------------
+#--------------------------------------------------------------------------
+
+SUPPORT = htpasswd unescape inc2shtml htdigest dbm2std std2dbm dbmdigest \
+	dbmgroup dbmpasswd webgrab auth/uudecode auth/uuencode
+.c.o: 
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<
+
+all: $(SUPPORT)
+
+aix3:
+	make all CC=gcc CFLAGS=-DAIX3
+
+aix4:
+	make all CC=gcc CFLAGS=-DAIX4
+
+aux:
+	make all CC=gcc CFLAGS="-O2 -DAUX -D_POSIX_SOURCE"
+
+hp-cc:
+	make all CC=cc CFLAGS="-Ae -DHPUX" EXTRA_LIBS=-lndbm
+
+hp-gcc:
+	make all CC=gcc CFLAGS="-DHPUX" EXTRA_LIBS=-lndbm
+
+linux:
+	make all CC=gcc CFLAGS="-DLINUX -DGDBM_NDBM" EXTRA_LIBS="-lgdbm -lgdbm_compat -lcrypt"
+
+macos:
+	#make all CC=gcc CFLAGS="-DLINUX -DNEED_SYS_MALLOC_H -DGDBM_NDBM" EXTRA_LIBS="-lgdbm -lgdbm_compat"
+	make all CC=gcc CFLAGS="-DLINUX -DNEED_SYS_MALLOC_H" EXTRA_LIBS="-ldbm"
+
+netbsd: 
+	make all CC=cc CFLAGS="-DNETBSD" EXTRA_LIBS=-lcrypt
+
+next:
+	make all CC=cc CFLAGS="-DNeXT" EXTRA_LIBS=-ldbm
+
+osf1:
+	make all CC=cc CFLAGS="-DOSF1"
+
+sco5:
+	make all CC=cc CFLAGS="-DSCO5" EXTRA_LIBS="-ldbm -lsocket"
+
+sgi4: 
+	make all CC=cc CFLAGS="-DIRIX -DHEAD_GETPASS"
+
+sgi5:
+	make all CC=cc CFLAGS="-DIRIX"
+
+solaris:
+	make all CC=gcc CFLAGS="-DSOLARIS2" EXTRA_LIBS="-lnsl -lsocket"
+
+sunos:
+	make all CC=gcc CFLAGS="-DSUNOS"
+
+svr4:
+	make all CC=cc CFLAGS="-I/usr/include -I/usr/ucbinclude -DSVR4" \
+	 EXTRA_LIBS="-lc -L/usr/ucblib -ldbm -lucb -lnsl -lsocket"
+
+ultrix:
+	make all CC=gcc CFLAGS="-DULTRIX"
+
+htpasswd: htpasswd.c
+	$(CC) $(CFLAGS) $(INCLUDES) htpasswd.c -o htpasswd $(LDFLAGS) $(EXTRA_LIBS)
+
+dbmpasswd: dbmpasswd.c
+	$(CC) $(CFLAGS) $(INCLUDES) dbmpasswd.c -o dbmpasswd $(LDFLAGS) $(EXTRA_LIBS)
+
+dbmgroup: dbmgroup.c
+	$(CC) $(CFLAGS) $(INCLUDES) dbmgroup.c -o dbmgroup $(LDFLAGS) $(EXTRA_LIBS)
+
+std2dbm: std2dbm.c
+	$(CC) $(CFLAGS) $(INCLUDES) std2dbm.c -o std2dbm $(LDFLAGS) $(EXTRA_LIBS)
+
+dbm2std: dbm2std.c
+	$(CC) $(CFLAGS) $(INCLUDES) dbm2std.c -o dbm2std $(LDFLAGS) $(EXTRA_LIBS)
+
+
+DIGESTOBJS=../src/md5.o ../src/md5c.o
+../src/md5.o: ../src/md5.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c ../src/md5.c -o ../src/md5.o 
+
+../src/md5c.o: ../src/md5.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c ../src/md5c.c -o ../src/md5c.o 
+
+htdigest: $(DIGESTOBJS) htdigest.o  ../src/md5.h
+	$(CC) $(CFLAGS) -o htdigest htdigest.o $(DIGESTOBJS) $(LDFLAGS) $(EXTRA_LIBS)
+
+dbmdigest: $(DIGESTOBJS) dbmdigest.o ../src/md5.h
+	$(CC) $(CFLAGS) -o dbmdigest dbmdigest.o $(DIGESTOBJS) $(LDFLAGS) $(EXTRA_LIBS)
+
+unescape: unescape.c
+	$(CC) $(CFLAGS) $(INCLUDES) unescape.c -o unescape $(LDFLAGS)
+
+inc2shtml: inc2shtml.c
+	$(CC) $(CFLAGS) $(INCLUDES) inc2shtml.c -o inc2shtml $(LDFLAGS)
+
+webgrab: webgrab.c
+	$(CC) $(CFLAGS) $(INCLUDES) webgrab.c -o webgrab $(LDFLAGS) $(EXTRA_LIBS)
+clean:
+	rm -f $(SUPPORT) $(DIGESTOBJS) tags TAGS *.o
+

@@ -1,0 +1,178 @@
+#===========================================================================
+# NCSA HTTPd (comments, questions to httpd@ncsa.uiuc.edu)
+#===========================================================================
+# This is the server resource configuration file.  With this document, 
+# you define the name space that users of your server see.
+# See URL http://hoohoo.ncsa.uiuc.edu/ for HTTPd Documentation.
+# Information specific to this file can be found at
+# http://hoohoo.ncsa.uiuc.edu/docs/setup/srm/Overview.html
+# Do NOT simply read the instructions in here without understanding
+# what they do.  If you are unsure, consult the online docs.  You have been
+# warned.
+#===========================================================================
+
+
+#===========================================================================
+# Name Space Options
+#---------------------------------------------------------------------------
+# DocumentRoot: The directory out of which you will serve your
+# documents. By default, all requests are taken from this directory, but
+# symbolic links and aliases may be used to point to other locations.
+
+DocumentRoot /usr/local/etc/httpd/htdocs
+
+# UserDir: The name of the directory which is appended onto a user's home
+# directory if a ~user request is recieved.
+
+UserDir public_html
+
+# Redirect allows you to tell clients about documents which used to exist in
+# your server's namespace, but do not anymore. This allows you to tell the
+# clients where to look for the relocated document.
+# Format: Redirect fakename url
+
+Redirect /HTTPd/ http://hoohoo.ncsa.uiuc.edu/
+
+# Aliases: Add here as many aliases as you need. The format is 
+# Alias fakename realname
+
+Alias /icons/ /usr/local/etc/httpd/icons/
+
+# ScriptAlias: This controls which directories contain server scripts.
+# Format: ScriptAlias fakename realname
+
+ScriptAlias /cgi-bin/ /usr/local/etc/httpd/cgi-bin/
+
+#===========================================================================
+# OpenMarket's FCGI Support Options (http://www.fastcgi.com/
+#---------------------------------------------------------------------------
+# FCGIScritpAlias: Same as ScriptAlias, except for FCGI scripts
+# Format: FCGIScriptAlias fakename realname
+
+#FCGIScriptAlias /fcgi-bin/ /usr/local/etc/httpd/fcgi-devel-kit/examples/
+
+# Define the AppClasses. These get hit when requests come in for
+# /fcgi-bin/tiny-fcgi.fcgi or /fcgi-bin/tiny-fcgi2.fcgi
+#AppClass /usr/local/etc/httpd/fcgi-devel-kit/examples/tiny-fcgi.fcgi -listen-queue-depth 10 -processes 2
+#AppClass /usr/local/etc/httpd/fcgi-devel-kit/examples/tiny-fcgi2.fcgi -listen-queue-depth 10 -processes 2
+
+#===========================================================================
+# Directory Indexing
+#---------------------------------------------------------------------------
+# If a user requests a document (URL) from your server ending in /, the
+# server will attempt to "index" the directory.  It will first look for 
+# a file matching the DirectoryIndex directive in order.  If no files 
+# exist, and Indexing is allowed for that directory, the server will provide
+# an index that it generates itself.  These options allow you to modify the
+# look of that index.
+
+# DirectoryIndex: Name of the file to use as a pre-written HTML
+# directory index.  These files are used if a directory is referenced.
+
+DirectoryIndex index.html index.shtml index.cgi
+
+# IndexOptions
+
+IndexOptions FancyIndexing
+
+# AddIcon tells the server which icon to show for different files or filename
+# extensions
+
+AddIconByType (TXT,/icons/text.gif) text/*
+AddIconByType (IMG,/icons/image.gif) image/*
+AddIconByType (SND,/icons/sound.gif) audio/*
+AddIcon /icons/movie.gif .mpg .qt
+AddIcon /icons/binary.gif .bin
+
+AddIcon /icons/back.xbm ..
+AddIcon /icons/menu.gif ^^DIRECTORY^^
+AddIcon /icons/blank.xbm ^^BLANKICON^^
+
+# DefaultIcon is which icon to show for files which do not have an icon
+# explicitly set.
+
+DefaultIcon /icons/unknown.xbm
+
+# AddDescription allows you to place a short description after a file in
+# server-generated indexes.
+# Format: AddDescription "description" filename
+
+# ReadmeName is the name of the README file the server will look for by
+# default. Format: ReadmeName name
+#
+# The server will first look for name.html, include it if found, and it will
+# then look for name and include it as plaintext if found.
+#
+# HeaderName is the name of a file which should be prepended to
+# directory indexes. 
+
+ReadmeName README
+HeaderName HEADER
+
+# IndexIgnore is a set of filenames which directory indexing should ignore
+# This doesn't use full regexp syntax, perhaps it should . . .
+# Format: IndexIgnore name1 name2...
+
+IndexIgnore */.??* *~ *# */HEADER* */README*
+
+#===========================================================================
+# Content Type and Mime Configuration
+#---------------------------------------------------------------------------
+# Although NCSA HTTPd doesn't fully support the content-negotiation that
+# exists in HTTP/1.1, it does attempt to correctly identify different 
+# encodings and types of files it serves.  The following options specify
+# how it does this
+
+# DefaultType is the default MIME type for documents which the server
+# cannot find the type of from filename extensions.
+
+DefaultType text/plain
+
+# AddType allows you to tweak mime.types without actually editing it, or to
+# make certain files to be certain types.
+# Format: AddType type/subtype ext1
+
+# AddEncoding allows you to have certain browsers (Mosaic/X 2.1+) uncompress
+# information on the fly. Note: Not all browsers support this.
+
+#AddEncoding compress Z
+#AddEncoding gzip gz
+
+# The following are known to the server as "Magic Mime Types"  They allow
+# you to change how the server perceives a document by the extension
+# The server currently recognizes the following mime types for server side
+# includes, internal imagemap, and CGI anywhere.  Uncomment them to use them.
+# Note: If you disallow (in access.conf) Options Includes ExecCGI, and you
+# uncomment the following, the files will be passed with the magic mime type
+# as the content type, which causes most browsers to attempt to save the 
+# file to disk.
+
+#AddType text/x-server-parsed-html .shtml
+#AddType text/x-imagemap .map
+#AddType application/x-httpd-cgi .cgi
+#AddType application/x-httpd-fcgi .fcgi
+
+#===========================================================================
+# Misc Server Resources
+#---------------------------------------------------------------------------
+# AccessFileName: The name of the file to look for in each directory
+# for access control information and directory specific configuration
+
+AccessFileName .htaccess
+
+# If you want to have files/scripts sent instead of the built-in version
+# in case of errors, uncomment the following lines and set them as you
+# will.  Note: scripts must be able to be run as if the were called 
+# directly (in ScriptAlias directory, for instance)
+
+# 302 - REDIRECT 
+# 400 - BAD_REQUEST 
+# 401 - AUTH_REQUIRED 
+# 403 - FORBIDDEN 
+# 404 - NOT_FOUND 
+# 500 - SERVER_ERROR 
+# 501 - NOT_IMPLEMENTED 
+
+#ErrorDocument 302 /cgi-bin/redirect.cgi
+#ErrorDocument 500 /errors/server.html
+#ErrorDocument 403 /errors/forbidden.html
