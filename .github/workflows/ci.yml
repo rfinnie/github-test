@@ -10,4 +10,4 @@ jobs:
     - name: configure
       run: ./configure
     - name: make
-      run: ./tools/make
+      run: ./tools/mmake
