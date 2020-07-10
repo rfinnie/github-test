@@ -1,18 +1,13 @@
 name: ci
 on: [push, pull_request]
 jobs:
-  build-linux:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Dependency packages
-      run: |
-        sudo apt-get -y install libgdbm-dev libgdbm-compat-dev
+      run: sudo apt-get -y install build-essential python3-pexpect
+    - name: configure
+      run: ./configure
     - name: make
-      run: make linux
-  build-macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: make
-      run: make macos
+      run: ./tools/make
