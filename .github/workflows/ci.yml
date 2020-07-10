@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Dependency packages
-      run: sudo apt-get -y install build-essential python3-pexpect
+      run: sudo apt-get -y install build-essential python3-pexpect libncurses-dev
     - name: configure
       run: ./configure
     - name: make
