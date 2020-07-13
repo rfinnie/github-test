@@ -13,7 +13,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
     - name: Dependency packages (macos)
       run: |
-        brew install ncurses
+        brew install coreutils ncurses
         pip3 install pexpect
       if: ${{ matrix.os == 'macos-latest' }}
     - name: configure
