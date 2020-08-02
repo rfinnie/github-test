@@ -17,3 +17,8 @@ jobs:
         sudo apt -y install ../*.deb
     - name: Build image
       run: sudo ./finnix-live-build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: finnix-live-build.${{ github.workflow }}.${{ github.job }}.${{ github.run_id }}.${{ github.run_number }}
+        path: nobackup/lb/finnix-*
