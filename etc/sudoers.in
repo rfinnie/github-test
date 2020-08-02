@@ -1,2 +1,0 @@
-@INSTUSR@ ALL=NOPASSWD: /bin/systemctl poweroff
-@INSTUSR@ ALL=NOPASSWD: /bin/systemctl reboot

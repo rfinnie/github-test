@@ -1,7 +1,0 @@
-[Unit]
-Description=Mount USB Drive on %i
-[Service]
-Type=oneshot
-RemainAfterExit=true
-ExecStart=@ABSPREFIX@/bin/usb-mount add %i
-ExecStop =@ABSPREFIX@/bin/usb-mount remove %i

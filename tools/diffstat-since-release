@@ -1,3 +1,0 @@
-#!/bin/bash
-files=$(ls | grep -v -e autosetup -e test | tr '\n' ' ')
-fossil diff --internal --from release $files | diffstat

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+cat <<EOM >/etc/systemd/system/gpm.service
+[Unit]
+Description=Console mouse daemon
+ConditionPathExists=/dev/input/mice
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/gpm -m /dev/input/mice -t exps2
+PIDFile=/var/run/gpm.pid
+EOM
+systemctl add-wants finnix.target gpm.service
