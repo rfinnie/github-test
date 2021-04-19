@@ -10,7 +10,8 @@ jobs:
     - name: Test
       run: |
           mkdir -p artifacts
-          lshw > artifacts/lshw.txt
+          env | tee > artifacts/env.txt
+          sudo lshw | tee artifacts/lshw.txt
           sudo tar zcvf artifacts/etc.tar.gz /etc
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
