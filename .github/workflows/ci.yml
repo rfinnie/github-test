@@ -1,5 +1,6 @@
 name: ci
 on: [push, pull_request]
+runs-on: [self-hosted]
 jobs:
   build:
     runs-on: ubuntu-latest
