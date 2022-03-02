@@ -12,7 +12,8 @@ jobs:
           mkdir -p artifacts
           env | tee > artifacts/env.txt
           sudo lshw | tee artifacts/lshw.txt
-          sudo tar zcvf artifacts/etc.tar.gz /etc
+          sudo sleep 60
+          # sudo tar zcvf artifacts/etc.tar.gz /etc
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
