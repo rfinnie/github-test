@@ -7,13 +7,17 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: true
+    - name: Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
     - name: Test
       run: |
           mkdir -p artifacts
           env | tee > artifacts/env.txt
-          sudo lshw | tee artifacts/lshw.txt
-          sudo sleep 61
+          # sudo lshw | tee artifacts/lshw.txt
           # sudo tar zcvf artifacts/etc.tar.gz /etc
+          sleep 60
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
