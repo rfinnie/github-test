@@ -1,9 +1,8 @@
 name: ci
 on: [push, pull_request]
-runs-on: [self-hosted]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     steps:
     - uses: actions/checkout@v2
       with:
