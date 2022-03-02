@@ -15,6 +15,7 @@ jobs:
       run: |
           mkdir -p artifacts
           env | tee > artifacts/env.txt
+          python --version
           # sudo lshw | tee artifacts/lshw.txt
           # sudo tar zcvf artifacts/etc.tar.gz /etc
           sleep 60
