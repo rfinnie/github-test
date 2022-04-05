@@ -2,18 +2,19 @@ name: ci
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: [self-hosted]
+    runs-on: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: true
-    - uses: https://github.com/snallami/hello-world-javascript-action@v1.1
     - name: Python 3.9
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
     - name: Test
       run: |
+          ls /opt/hostedtoolcache
+          find /opt/hostedtoolcache
           mkdir -p artifacts
           env | tee > artifacts/env.txt
           python --version
