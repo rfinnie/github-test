@@ -14,12 +14,13 @@ jobs:
     - name: Test
       run: |
           ls /opt/hostedtoolcache/Python
+          ls /opt/hostedtoolcache/Python/3.9.12
           mkdir -p artifacts
           env | tee > artifacts/env.txt
           python --version
           # sudo lshw | tee artifacts/lshw.txt
           # sudo tar zcvf artifacts/etc.tar.gz /etc
-          sleep 60
+          # sleep 60
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
