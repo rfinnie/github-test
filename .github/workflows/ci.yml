@@ -14,7 +14,7 @@ jobs:
     - name: Test
       run: |
           ls /opt/hostedtoolcache/Python
-          ls /opt/hostedtoolcache/Python/3.9.12
+          ls /opt/hostedtoolcache/Python/3.9.12/x64
           mkdir -p artifacts
           env | tee > artifacts/env.txt
           python --version
