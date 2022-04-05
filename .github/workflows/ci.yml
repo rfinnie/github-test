@@ -13,8 +13,7 @@ jobs:
         python-version: 3.9
     - name: Test
       run: |
-          ls /opt/hostedtoolcache
-          find /opt/hostedtoolcache
+          ls /opt/hostedtoolcache/Python
           mkdir -p artifacts
           env | tee > artifacts/env.txt
           python --version
