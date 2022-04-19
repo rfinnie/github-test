@@ -18,6 +18,7 @@ jobs:
           ls /opt/hostedtoolcache/Python/3.9.12/x64
           mkdir -p artifacts
           env | sort | tee artifacts/env.txt
+          ls -lsa /home/runner/runners/2.290.1/
           cat /home/runner/runners/2.290.1/.setup_info
           cat /etc/passwd
           cat /etc/group
