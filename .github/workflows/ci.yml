@@ -17,7 +17,8 @@ jobs:
           ls /opt/hostedtoolcache/Python
           ls /opt/hostedtoolcache/Python/3.9.12/x64
           mkdir -p artifacts
-          env | tee > artifacts/env.txt
+          env | sort | tee artifacts/env.txt
+          find / -name .setup_info 2>/dev/null
           cat /etc/passwd
           cat /etc/group
           id
