@@ -18,6 +18,8 @@ jobs:
           ls /opt/hostedtoolcache/Python/3.9.12/x64
           mkdir -p artifacts
           env | tee > artifacts/env.txt
+          cat /etc/passwd
+          cat /etc/group
           id
           pwd
           python --version
