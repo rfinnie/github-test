@@ -25,6 +25,7 @@ jobs:
           id
           pwd
           python --version
+          dpkg -l
           # sudo lshw | tee artifacts/lshw.txt
           # sudo tar zcvf artifacts/etc.tar.gz /etc
           # sleep 60
