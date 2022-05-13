@@ -18,13 +18,13 @@ jobs:
           #ls /opt/hostedtoolcache/Python/3.9.12/x64
           mkdir -p artifacts
           env | sort | tee artifacts/env.txt
-          ls -lsa /home/runner/runners/2.290.1/
+          ls -lsa /home/runner/runners/*/
           cat /home/runner/runners/*/.setup_info
           cat /etc/passwd
           cat /etc/group
           id
           pwd
-          python --version
+          #python --version
           dpkg -l
           # sudo lshw | tee artifacts/lshw.txt
           # sudo tar zcvf artifacts/etc.tar.gz /etc
