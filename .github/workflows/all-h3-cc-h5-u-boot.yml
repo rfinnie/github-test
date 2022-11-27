@@ -8,17 +8,20 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/checkout@v3
-      repository: crust-firmware/crust
-      ref: v0.5
-      path: crust
+      with:
+        repository: crust-firmware/crust
+        ref: v0.5
+        path: crust
     - uses: actions/checkout@v3
-      repository: ARM-software/arm-trusted-firmware
-      ref: v2.8
-      path: arm-trusted-firmware
+      with:
+        repository: ARM-software/arm-trusted-firmware
+        ref: v2.8
+        path: arm-trusted-firmware
     - uses: actions/checkout@v3
-      repository: git://git.denx.de/u-boot.git
-      ref: v2022.10
-      path: u-boot
+      with:
+        repository: git://git.denx.de/u-boot.git
+        ref: v2022.10
+        path: u-boot
     - name: Host dependencies
       run: |
         sudo apt-get update
