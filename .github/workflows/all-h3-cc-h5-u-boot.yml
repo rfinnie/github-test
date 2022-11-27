@@ -17,8 +17,11 @@ jobs:
         repository: ARM-software/arm-trusted-firmware
         ref: v2.8
         path: arm-trusted-firmware
-    - run: |
-        git clone --depth 1 --branch v2022.10 git://git.denx.de/u-boot.git u-boot
+    - uses: actions/checkout@v3
+      with:
+        repository: u-boot/u-boot
+        ref: v2022.10
+        path: u-boot
     - name: Host dependencies
       run: |
         sudo apt-get update
@@ -31,16 +34,17 @@ jobs:
       run: |
         make -C crust clean
         make -C crust libretech_all_h3_cc_h5_defconfig
-        env PATH="${GITHUB_WORKSPACE}/or1k-linux/bin:${PATH}" make -C crust CROSS_COMPILE=or1k-linux- scp
+        env PATH="${GITHUB_WORKSPACE}/or1k-linux/bin:${PATH}" make -C crust CROSS_COMPILE=or1k-linux- -j"$(nproc)" scp
         make -C arm-trusted-firmware distclean
-        make -C arm-trusted-firmware CROSS_COMPILE=aarch64-linux-gnu- PLAT=sun50i_a64 bl31
+        make -C arm-trusted-firmware CROSS_COMPILE=aarch64-linux-gnu- PLAT=sun50i_a64 -j"$(nproc)" bl31
         make -C u-boot distclean
         make -C u-boot libretech_all_h3_cc_h5_defconfig
         make -C u-boot CROSS_COMPILE=aarch64-linux-gnu- \
           BL31="${GITHUB_WORKSPACE}/arm-trusted-firmware/build/sun50i_a64/release/bl31.bin" \
-          SCP="${GITHUB_WORKSPACE}/crust/build/scp/scp.bin"
+          SCP="${GITHUB_WORKSPACE}/crust/build/scp/scp.bin" \
+          -j"$(nproc)"
         mkdir -p artifacts
-        cp u-boot/u-boot-sunxi-with-spl.bin artifacts/u-boot-sunxi-with-spl.bin.$(git -C u-boot describe --dirty)-atf-$(git -C arm-trusted-firmware describe --dirty)-crust-$(git -C crust describe --dirty)"
+        cp u-boot/u-boot-sunxi-with-spl.bin "artifacts/u-boot-sunxi-with-spl.bin.$(git -C u-boot describe --dirty)-atf-$(git -C arm-trusted-firmware describe --dirty)-crust-$(git -C crust describe --dirty)"
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
