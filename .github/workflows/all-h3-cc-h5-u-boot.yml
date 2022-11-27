@@ -1,0 +1,48 @@
+name: all-h3-cc-h5-u-boot
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+      repository: crust-firmware/crust
+      ref: v0.5
+      path: crust
+    - uses: actions/checkout@v2
+      repository: ARM-software/arm-trusted-firmware
+      ref: v2.8
+      path: arm-trusted-firmware
+    - uses: actions/checkout@v2
+      repository: git://git.denx.de/u-boot.git
+      ref: v2022.10
+      path: u-boot
+    - name: Host dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install gcc-aarch64-linux-gnu
+    - name: or1k toolchain
+      run: |
+        curl -L -o or1k-linux.tar.xz https://github.com/openrisc/or1k-gcc/releases/download/or1k-12.0.1-20220210-20220304/or1k-linux-12.0.1-20220210-20220304.tar.xz
+        tar axf or1k-linux.tar.xz
+    - name: Build
+      run: |
+        make -C crust clean
+        make -C crust libretech_all_h3_cc_h5_defconfig
+        env PATH="${GITHUB_WORKSPACE}/crust/or1k-linux/bin:${PATH}" make -C crust CROSS_COMPILE=or1k-linux- scp
+        make -C arm-trusted-firmware distclean
+        make -C arm-trusted-firmware CROSS_COMPILE=aarch64-linux-gnu- PLAT=sun50i_a64 bl31
+        make -C u-boot distclean
+        make -C u-boot libretech_all_h3_cc_h5_defconfig
+        make -C u-boot CROSS_COMPILE=aarch64-linux-gnu- \
+          BL31="${GITHUB_WORKSPACE}/arm-trusted-firmware/build/sun50i_a64/release/bl31.bin" \
+          SCP="${GITHUB_WORKSPACE}/crust/build/scp/scp.bin"
+        mkdir -p artifacts
+        cp u-boot/u-boot-sunxi-with-spl.bin artifacts/u-boot-sunxi-with-spl.bin.$(git -C u-boot describe --dirty)-atf-$(git -C arm-trusted-firmware describe --dirty)-crust-$(git -C crust describe --dirty)"
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ github.workflow }}.${{ github.job }}.${{ github.run_number }}.${{ github.run_id }}
+        path: artifacts
