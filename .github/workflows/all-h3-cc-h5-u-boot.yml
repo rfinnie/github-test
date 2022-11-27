@@ -17,11 +17,8 @@ jobs:
         repository: ARM-software/arm-trusted-firmware
         ref: v2.8
         path: arm-trusted-firmware
-    - uses: actions/checkout@v3
-      with:
-        repository: git://git.denx.de/u-boot.git
-        ref: v2022.10
-        path: u-boot
+    - run: |
+      git clone --depth 1 --branch v2022.10 git://git.denx.de/u-boot.git u-boot
     - name: Host dependencies
       run: |
         sudo apt-get update
