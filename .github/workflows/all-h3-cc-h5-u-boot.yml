@@ -18,7 +18,7 @@ jobs:
         ref: v2.8
         path: arm-trusted-firmware
     - run: |
-      git clone --depth 1 --branch v2022.10 git://git.denx.de/u-boot.git u-boot
+        git clone --depth 1 --branch v2022.10 git://git.denx.de/u-boot.git u-boot
     - name: Host dependencies
       run: |
         sudo apt-get update
