@@ -30,6 +30,7 @@ jobs:
       run: |
         curl -L -o or1k-linux.tar.xz https://github.com/openrisc/or1k-gcc/releases/download/or1k-12.0.1-20220210-20220304/or1k-linux-12.0.1-20220210-20220304.tar.xz
         tar axf or1k-linux.tar.xz
+        rm -f or1k-linux.tar.xz
     - name: Build
       run: |
         make -C crust clean
