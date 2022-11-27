@@ -6,16 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
       repository: crust-firmware/crust
       ref: v0.5
       path: crust
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       repository: ARM-software/arm-trusted-firmware
       ref: v2.8
       path: arm-trusted-firmware
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       repository: git://git.denx.de/u-boot.git
       ref: v2022.10
       path: u-boot
@@ -42,7 +42,7 @@ jobs:
         mkdir -p artifacts
         cp u-boot/u-boot-sunxi-with-spl.bin artifacts/u-boot-sunxi-with-spl.bin.$(git -C u-boot describe --dirty)-atf-$(git -C arm-trusted-firmware describe --dirty)-crust-$(git -C crust describe --dirty)"
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ github.workflow }}.${{ github.job }}.${{ github.run_number }}.${{ github.run_id }}
         path: artifacts
