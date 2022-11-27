@@ -31,7 +31,7 @@ jobs:
       run: |
         make -C crust clean
         make -C crust libretech_all_h3_cc_h5_defconfig
-        env PATH="${GITHUB_WORKSPACE}/crust/or1k-linux/bin:${PATH}" make -C crust CROSS_COMPILE=or1k-linux- scp
+        env PATH="${GITHUB_WORKSPACE}/or1k-linux/bin:${PATH}" make -C crust CROSS_COMPILE=or1k-linux- scp
         make -C arm-trusted-firmware distclean
         make -C arm-trusted-firmware CROSS_COMPILE=aarch64-linux-gnu- PLAT=sun50i_a64 bl31
         make -C u-boot distclean
