@@ -44,7 +44,7 @@ jobs:
           SCP="${GITHUB_WORKSPACE}/crust/build/scp/scp.bin" \
           -j"$(nproc)"
         mkdir -p artifacts
-        cp u-boot/u-boot-sunxi-with-spl.bin "artifacts/u-boot-sunxi-with-spl.bin.$(git -C u-boot describe --dirty)-atf-$(git -C arm-trusted-firmware describe --dirty)-crust-$(git -C crust describe --dirty)"
+        cp u-boot/u-boot-sunxi-with-spl.bin "artifacts/u-boot-sunxi-with-spl-$(git -C u-boot describe --dirty)-atf-$(git -C arm-trusted-firmware describe --dirty)-crust-$(git -C crust describe --dirty).bin"
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
