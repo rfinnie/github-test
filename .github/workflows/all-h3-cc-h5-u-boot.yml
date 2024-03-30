@@ -1,6 +1,5 @@
 name: all-h3-cc-h5-u-boot
 on:
-  push:
   workflow_dispatch:
 jobs:
   build:
