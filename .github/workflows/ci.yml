@@ -9,6 +9,8 @@ jobs:
       with:
         submodules: true
     - run: |
+        sudo env | sort
+        echo "============================================="
         env | grep ^GITHUB_ | sudo tee -a /etc/environment >/dev/null
         sudo env | sort
         cat <<EOM >~/.testheredoc
