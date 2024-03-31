@@ -1,4 +1,3 @@
-ci
 on:
   push:
   pull_request:
