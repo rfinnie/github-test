@@ -9,6 +9,9 @@ jobs:
       with:
         submodules: true
     - run: |
+        echo "::notice title=Build information::Build: 2024-03-30 16:36:22 202aaf1 amd64 ci gha jammy ubuntu"
+        echo "::notice title=Build information::506880 -rw-r--r-- 1 root root 519045120 Mar 30 16:36 /home/runner/work/finnix-live-build/finnix-live-build/build/lb/finnix-amd64.hybrid.iso"
+        echo "::notice title=Build information::a5ae8e081a9707e8ce995a5f08067afdf33bbc39b00b6019a3c8f4ee3c3c97324178894878ef9e2a7a26b76c2109696ed4d3ebc3448d58b61bb126978ae0ca7a  /home/runner/work/finnix-live-build/finnix-live-build/build/lb/finnix-amd64.hybrid.iso"
         sudo env | sort
         echo "============================================="
         env | grep ^GITHUB_ | sudo tee -a /etc/environment >/dev/null
